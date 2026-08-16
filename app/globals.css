@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f9fc;
+  --foreground: #101828;
+}
+
+@theme {
+  /* Brand palette — JASHOKAI GlobalTech */
+  --color-navy: #0a1f44;
+  --color-navy-dark: #071530;
+  --color-navy-light: #14335c;
+  --color-ocean: #1b4f91;
+  --color-ocean-light: #2e6fbe;
+  --color-gold: #c89b3c;
+  --color-gold-light: #e0bd6c;
+  --color-palm: #2f6b4f;
+  --color-palm-light: #3f8a67;
+  --color-sakura: #c14953;
+  --color-sakura-light: #d97680;
+  --color-offwhite: #f7f9fc;
+  --color-ink: #101828;
+  --color-muted: #5b6472;
+  --color-line: #e2e8f0;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
