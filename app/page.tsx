@@ -1,3 +1,4 @@
+import AnnouncementPopup from "./_components/ui/AnnouncementPopup";
 import Hero from "./_components/sections/Hero";
 import TrustIndicators from "./_components/sections/TrustIndicators";
 import WhyJashokai from "./_components/sections/WhyJashokai";
@@ -13,6 +14,7 @@ import ContactCta from "./_components/sections/ContactCta";
 export default function Home() {
   return (
     <>
+      <AnnouncementPopup />
       <Hero />
       <TrustIndicators />
       <WhyJashokai />
