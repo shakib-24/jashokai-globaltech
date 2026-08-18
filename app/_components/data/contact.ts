@@ -14,3 +14,11 @@ export const OPENING_HOURS = "Hours to be announced";
 export function buildWhatsAppLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
+
+// TODO: Add real social media profile URLs once accounts are created.
+// Leave a value empty to render that icon as a non-navigating placeholder.
+export const SOCIAL_LINKS = {
+  facebook: "",
+  instagram: "",
+  youtube: "",
+};
