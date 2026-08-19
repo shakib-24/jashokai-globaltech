@@ -19,7 +19,7 @@ export default function Teachers() {
           eyebrow="Our Teachers"
           title="Guided by Dedicated Instructors"
           description="Teacher profiles are being finalized and will be published soon."
-          align="left"
+          align="center"
         />
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">

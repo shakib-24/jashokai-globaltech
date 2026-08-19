@@ -1,5 +1,5 @@
 import Container from "../ui/Container";
-import Logo from "./Logo";
+import BrandLockup from "./BrandLockup";
 import {
   CONTACT_EMAIL,
   LOCATION,
@@ -167,7 +167,7 @@ export default function Footer() {
       <Container className="relative py-10 lg:py-12">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-8 gap-y-9 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.85fr_1.15fr_0.85fr_1.15fr]">
           <div className="flex flex-col gap-3">
-            <Logo light />
+            <BrandLockup light />
             <p className="text-sm leading-relaxed text-white/70">
               Born in Jashore.
               <br />

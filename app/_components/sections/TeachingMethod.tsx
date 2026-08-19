@@ -33,7 +33,7 @@ export default function TeachingMethod() {
           eyebrow="How We Teach"
           title="Our Teaching Method"
           description="A practical, communication-focused approach to learning Japanese."
-          align="left"
+          align="center"
           light
         />
 

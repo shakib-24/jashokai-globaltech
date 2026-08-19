@@ -1,5 +1,4 @@
 import Section from "../ui/Section";
-import SectionHeading from "../ui/SectionHeading";
 
 const STEPS = [
   {
@@ -42,13 +41,23 @@ const EXAMS = [
 export default function JlptPrep() {
   return (
     <Section id="jlpt-prep" background="offwhite" ariaLabel="JLPT and JFT-Basic Preparation">
-      <div className="flex flex-col gap-12">
-        <SectionHeading
-          eyebrow="Exam Readiness"
-          title="JLPT & JFT-Basic Preparation"
-          description="Structured, honest preparation focused on genuine skill-building — not shortcuts."
-          align="left"
-        />
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col items-center gap-2.5 text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+            Exam Readiness
+          </span>
+          <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-navy sm:text-4xl">
+            JLPT & JFT-Basic Preparation
+          </h2>
+          <p className="mx-auto max-w-[700px] text-base leading-relaxed text-muted sm:text-lg">
+            Structured, honest preparation focused on genuine skill-building — not shortcuts.
+          </p>
+          <div aria-hidden="true" className="mt-1 flex items-center gap-3">
+            <span className="h-px w-8 bg-gold/60" />
+            <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+            <span className="h-px w-8 bg-gold/60" />
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {EXAMS.map((exam) => (

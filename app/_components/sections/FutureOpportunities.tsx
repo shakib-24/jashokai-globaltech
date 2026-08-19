@@ -29,7 +29,7 @@ export default function FutureOpportunities() {
           eyebrow="Our Roadmap"
           title="Future Opportunities"
           description="Languages • Study Abroad • IT Careers — our long-term vision. Today, we focus entirely on Japanese language education."
-          align="left"
+          align="center"
         />
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
