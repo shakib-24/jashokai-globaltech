@@ -18,7 +18,7 @@ export function buildWhatsAppLink(message: string) {
 // TODO: Add real social media profile URLs once accounts are created.
 // Leave a value empty to render that icon as a non-navigating placeholder.
 export const SOCIAL_LINKS = {
-  facebook: "",
+  facebook: "https://www.facebook.com/share/1DSLruXRqp/?mibextid=wwXIfr",
   instagram: "",
   youtube: "",
 };

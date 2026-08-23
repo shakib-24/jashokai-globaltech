@@ -3,69 +3,45 @@
 import { type FormEvent } from "react";
 import Section from "../ui/Section";
 import SectionHeading from "../ui/SectionHeading";
-import Button from "../ui/Button";
-import { CONTACT_EMAIL, LOCATION, WHATSAPP_DISPLAY, buildWhatsAppLink } from "../data/contact";
 
-const COURSE_OPTIONS = [
-  "Japanese N5",
-  "Japanese N4",
-  "JLPT Preparation",
-  "JFT-Basic Preparation",
-  "Not sure yet",
-];
+const COURSE_OPTIONS = ["Japanese N5", "Japanese N4", "Japanese N3", "JFT-Basic"];
 
 export default function ContactCta() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const name = data.get("name");
-    const phone = data.get("phone");
-    const course = data.get("course");
-    const message = data.get("message");
+    const inquiry = {
+      name: data.get("name"),
+      email: data.get("email"),
+      phone: data.get("phone"),
+      course: data.get("course"),
+      message: data.get("message"),
+    };
 
-    const lines = [
-      `Hello JASHOKAI GlobalTech, I'd like to book a free consultation.`,
-      `Name: ${name}`,
-      `Phone/WhatsApp: ${phone}`,
-      `Interested course: ${course}`,
-      message ? `Message: ${message}` : null,
-    ].filter(Boolean);
-
-    window.open(buildWhatsAppLink(lines.join("\n")), "_blank", "noopener,noreferrer");
+    // Email-based inquiry API is not wired up yet — connect it here.
+    console.log("Inquiry submitted:", inquiry);
     event.currentTarget.reset();
   }
 
   return (
-    <Section id="contact" background="navy" ariaLabel="Contact and Consultation">
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="flex flex-col gap-6">
+    <Section id="contact" background="navy" ariaLabel="Contact Us">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[9fr_11fr] lg:gap-16">
+        <div className="flex h-full flex-col gap-6">
           <SectionHeading
             eyebrow="Get In Touch"
-            title="Book Your Free Consultation"
-            description="Tell us a little about yourself and we'll reach out on WhatsApp to help you choose the right course."
+            title="Contact Us"
+            description="Tell us a little about yourself and we'll get back to you to help you choose the right course."
             align="left"
             light
           />
 
-          <div className="flex flex-col gap-3 text-sm text-white/75">
-            <p>{LOCATION}</p>
-            <a
-              href={buildWhatsAppLink("Hello JASHOKAI GlobalTech, I'd like to know more about your Japanese courses.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-fit hover:text-white"
-            >
-              WhatsApp: {WHATSAPP_DISPLAY}
-            </a>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="w-fit hover:text-white">
-              {CONTACT_EMAIL}
-            </a>
-          </div>
+          {/* Reserved space for a future Google Map / office location embed */}
+          <div className="hidden min-h-[240px] flex-1 lg:block" />
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-white p-6 sm:p-8"
+          className="mx-auto flex w-full max-w-lg flex-col gap-4 rounded-[20px] bg-white p-6 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] sm:p-7"
         >
           <div className="flex flex-col gap-1.5">
             <label htmlFor="name" className="text-sm font-medium text-navy">
@@ -76,22 +52,36 @@ export default function ContactCta() {
               name="name"
               type="text"
               required
-              className="min-h-12 rounded-lg border border-line px-4 text-base text-navy outline-none focus:border-navy"
+              className="min-h-12 rounded-lg border border-line px-4 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
               placeholder="Your name"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="text-sm font-medium text-navy">
+              Email Address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="min-h-12 rounded-lg border border-line px-4 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
+              placeholder="your@email.com"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
             <label htmlFor="phone" className="text-sm font-medium text-navy">
-              Phone / WhatsApp Number
+              Phone Number
             </label>
             <input
               id="phone"
               name="phone"
               type="tel"
               required
-              className="min-h-12 rounded-lg border border-line px-4 text-base text-navy outline-none focus:border-navy"
-              placeholder="e.g. 01XXXXXXXXX"
+              className="min-h-12 rounded-lg border border-line px-4 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
+              placeholder="Your phone number"
             />
           </div>
 
@@ -103,7 +93,7 @@ export default function ContactCta() {
               id="course"
               name="course"
               defaultValue={COURSE_OPTIONS[0]}
-              className="min-h-12 rounded-lg border border-line bg-white px-4 text-base text-navy outline-none focus:border-navy"
+              className="min-h-12 rounded-lg border border-line bg-white px-4 text-base text-navy outline-none transition-colors focus:border-gold"
             >
               {COURSE_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -121,14 +111,17 @@ export default function ContactCta() {
               id="message"
               name="message"
               rows={3}
-              className="rounded-lg border border-line px-4 py-3 text-base text-navy outline-none focus:border-navy"
+              className="rounded-lg border border-line px-4 py-3 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
               placeholder="Anything you'd like us to know"
             />
           </div>
 
-          <Button type="submit" variant="primary" className="w-full">
-            Send via WhatsApp
-          </Button>
+          <button
+            type="submit"
+            className="mt-1 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-gold px-6 text-base font-semibold text-navy transition-colors duration-200 hover:bg-navy hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+          >
+            Send Inquiry
+          </button>
         </form>
       </div>
     </Section>

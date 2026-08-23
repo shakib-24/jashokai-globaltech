@@ -4,6 +4,7 @@ const variants = {
   palm: "bg-palm/10 text-palm border-palm/25",
   light: "bg-white/10 text-white border-white/25",
   muted: "bg-muted/10 text-muted border-muted/25",
+  red: "bg-red-50 text-red-600 border-red-200",
 } as const;
 
 export default function Badge({

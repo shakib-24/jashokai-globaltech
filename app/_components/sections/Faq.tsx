@@ -34,7 +34,7 @@ const FAQS = [
   {
     question: "How do I get started?",
     answer:
-      "Book a free consultation and we'll help you find the right course to start with.",
+      "Reach out to us and we'll help you find the right course to start with.",
   },
 ];
 
@@ -43,21 +43,28 @@ export default function Faq() {
 
   return (
     <Section id="faq" background="offwhite" ariaLabel="Frequently Asked Questions">
-      <div className="flex flex-col gap-10">
+      <div className="mx-auto flex w-full max-w-[1050px] flex-col gap-10">
         <SectionHeading
           eyebrow="FAQ"
           title="Frequently Asked Questions"
-          align="left"
+          description="Everything you may want to know before getting started."
+          align="center"
         />
 
-        <div className="flex flex-col divide-y divide-line rounded-2xl border border-line bg-white">
+        <div className="flex flex-col gap-3 sm:gap-4">
           {FAQS.map((faq, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
             const buttonId = `faq-button-${index}`;
+            const number = String(index + 1).padStart(2, "0");
 
             return (
-              <div key={faq.question}>
+              <div
+                key={faq.question}
+                className={`overflow-hidden rounded-2xl border bg-white shadow-sm transition-colors duration-200 ${
+                  isOpen ? "border-gold/40 shadow-md" : "border-line hover:border-gold/40"
+                }`}
+              >
                 <h3>
                   <button
                     id={buttonId}
@@ -65,19 +72,48 @@ export default function Faq() {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="flex min-h-14 w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-navy sm:text-base"
+                    className="flex w-full items-center gap-3 px-5 py-4 text-left sm:gap-4 sm:px-6 sm:py-5"
                   >
-                    {faq.question}
-                    <span className="shrink-0 text-navy/60">
-                      {isOpen ? <IconMinus width={18} height={18} /> : <IconPlus width={18} height={18} />}
+                    <span className="w-6 shrink-0 text-sm font-bold tabular-nums text-gold sm:w-7 sm:text-base">
+                      {number}
+                    </span>
+                    <span
+                      className={`flex-1 text-sm font-bold leading-snug transition-colors duration-200 sm:text-base ${
+                        isOpen ? "text-gold" : "text-navy"
+                      }`}
+                    >
+                      {faq.question}
+                    </span>
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 ${
+                        isOpen ? "border-gold bg-gold text-white" : "border-line bg-white text-navy/60"
+                      }`}
+                    >
+                      {isOpen ? <IconMinus width={16} height={16} /> : <IconPlus width={16} height={16} />}
                     </span>
                   </button>
                 </h3>
-                {isOpen && (
-                  <div id={panelId} role="region" aria-labelledby={buttonId} className="px-5 pb-5">
-                    <p className="text-sm leading-relaxed text-muted sm:text-base">{faq.answer}</p>
+
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div
+                      id={panelId}
+                      role="region"
+                      aria-labelledby={buttonId}
+                      aria-hidden={!isOpen}
+                      className="flex gap-3 px-5 pb-5 sm:gap-4 sm:px-6 sm:pb-6"
+                    >
+                      <span className="w-6 shrink-0 sm:w-7" />
+                      <div className="flex-1 rounded-r-md border-l-2 border-gold/50 bg-gold/5 py-3 pl-4 pr-3">
+                        <p className="text-sm leading-relaxed text-muted sm:text-base">{faq.answer}</p>
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

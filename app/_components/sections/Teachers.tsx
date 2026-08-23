@@ -35,7 +35,7 @@ export default function Teachers() {
                 <span className="text-base font-semibold text-navy">{teacher.name}</span>
                 <span className="text-sm text-muted">{teacher.role}</span>
               </div>
-              <Badge variant="muted">Profile Coming Soon</Badge>
+              <Badge variant="red">Profile Coming Soon</Badge>
             </div>
           ))}
         </div>

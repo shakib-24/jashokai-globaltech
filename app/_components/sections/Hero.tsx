@@ -53,7 +53,7 @@ export default function Hero() {
               View Japanese Courses
             </Button>
             <Button href="#contact" variant="outline-light" className="w-full sm:w-auto">
-              Book Free Consultation
+              Contact Us
             </Button>
           </div>
         </div>
