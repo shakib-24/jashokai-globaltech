@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import Section from "../ui/Section";
 import {
   IconFlower,
   IconGraduationCap,
   IconBriefcase,
   IconCheck,
+  IconArrowRight,
 } from "../ui/icons";
 
 const COURSES = [
@@ -17,6 +19,7 @@ const COURSES = [
     image: "/images/courses/n5.jpg",
     imageAlt: "Cherry blossoms along a bamboo forest path in Japan",
     objectPosition: "35% 50%",
+    href: "/courses/n5",
     areas: [
       "Hiragana & Katakana",
       "Basic Kanji",
@@ -34,8 +37,9 @@ const COURSES = [
     image: "/images/courses/n4.jpg",
     imageAlt: "Tokyo Skytree and cherry blossoms lit up at night",
     objectPosition: "50% 40%",
+    href: "/courses/n4",
     areas: [
-      "Intermediate Grammar",
+      "Expanded Grammar",
       "Expanded Vocabulary",
       "Kanji",
       "Reading & Listening",
@@ -51,6 +55,7 @@ const COURSES = [
     image: "/images/courses/jlpt.jpg",
     imageAlt: "Traditional Japanese temple and pagoda at golden hour",
     objectPosition: "55% 45%",
+    href: undefined,
     areas: [
       "Grammar & Vocabulary",
       "Reading Strategy",
@@ -68,6 +73,7 @@ const COURSES = [
     image: "/images/courses/jft.jpg",
     imageAlt: "Colorful tulip garden in bloom",
     objectPosition: "50% 60%",
+    href: undefined,
     areas: [
       "Everyday Japanese",
       "Workplace Vocabulary",
@@ -217,6 +223,16 @@ export default function JapaneseCourses() {
                         </li>
                       ))}
                     </ul>
+
+                    {course.href && (
+                      <Link
+                        href={course.href}
+                        className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-gold transition-colors hover:text-navy"
+                      >
+                        Learn More
+                        <IconArrowRight width={14} height={14} strokeWidth={2.25} />
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
