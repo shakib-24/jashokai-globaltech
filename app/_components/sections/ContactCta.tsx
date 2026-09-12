@@ -1,26 +1,70 @@
 "use client";
 
-import { type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import Section from "../ui/Section";
 import SectionHeading from "../ui/SectionHeading";
 
-const COURSE_OPTIONS = ["Japanese N5", "Japanese N4", "Japanese N3", "JFT-Basic"];
+const COURSE_OPTIONS = [
+  "Japanese N5",
+  "Japanese N4",
+  "Japanese N3",
+  "JFT-Basic",
+  "SSW Application Support",
+];
+
+const WHATSAPP_NUMBER = "819020575680";
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type FormErrors = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  course?: string;
+};
 
 export default function ContactCta() {
+  const [errors, setErrors] = useState<FormErrors>({});
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const inquiry = {
-      name: data.get("name"),
-      email: data.get("email"),
-      phone: data.get("phone"),
-      course: data.get("course"),
-      message: data.get("message"),
-    };
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = (data.get("name") as string | null)?.trim() ?? "";
+    const email = (data.get("email") as string | null)?.trim() ?? "";
+    const phone = (data.get("phone") as string | null)?.trim() ?? "";
+    const course = (data.get("course") as string | null)?.trim() ?? "";
+    const message = (data.get("message") as string | null)?.trim() ?? "";
 
-    // Email-based inquiry API is not wired up yet — connect it here.
-    console.log("Inquiry submitted:", inquiry);
-    event.currentTarget.reset();
+    const nextErrors: FormErrors = {};
+    if (!name) nextErrors.name = "Please enter your full name.";
+    if (!email) {
+      nextErrors.email = "Please enter your email address.";
+    } else if (!EMAIL_PATTERN.test(email)) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
+    if (!phone) nextErrors.phone = "Please enter your phone number.";
+    if (!course) nextErrors.course = "Please select what you're interested in.";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    const whatsappMessage = `Hello JASHOKAI GlobalTech,
+
+I would like to make an inquiry.
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Interested In: ${course}
+
+Message:
+${message || "No additional message"}
+
+Thank you.`;
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    form.reset();
   }
 
   return (
@@ -41,6 +85,7 @@ export default function ContactCta() {
 
         <form
           onSubmit={handleSubmit}
+          noValidate
           className="mx-auto flex w-full max-w-lg flex-col gap-4 rounded-[20px] bg-white p-6 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] sm:p-7"
         >
           <div className="flex flex-col gap-1.5">
@@ -52,9 +97,16 @@ export default function ContactCta() {
               name="name"
               type="text"
               required
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "name-error" : undefined}
               className="min-h-12 rounded-lg border border-line px-4 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
               placeholder="Your name"
             />
+            {errors.name && (
+              <p id="name-error" className="text-sm text-red-600">
+                {errors.name}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -66,9 +118,16 @@ export default function ContactCta() {
               name="email"
               type="email"
               required
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "email-error" : undefined}
               className="min-h-12 rounded-lg border border-line px-4 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
               placeholder="your@email.com"
             />
+            {errors.email && (
+              <p id="email-error" className="text-sm text-red-600">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -80,19 +139,28 @@ export default function ContactCta() {
               name="phone"
               type="tel"
               required
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
               className="min-h-12 rounded-lg border border-line px-4 text-base text-navy placeholder:text-muted/70 outline-none transition-colors focus:border-gold"
               placeholder="Your phone number"
             />
+            {errors.phone && (
+              <p id="phone-error" className="text-sm text-red-600">
+                {errors.phone}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label htmlFor="course" className="text-sm font-medium text-navy">
-              Interested Course
+              Interested In
             </label>
             <select
               id="course"
               name="course"
               defaultValue={COURSE_OPTIONS[0]}
+              aria-invalid={Boolean(errors.course)}
+              aria-describedby={errors.course ? "course-error" : undefined}
               className="min-h-12 rounded-lg border border-line bg-white px-4 text-base text-navy outline-none transition-colors focus:border-gold"
             >
               {COURSE_OPTIONS.map((option) => (
@@ -101,6 +169,11 @@ export default function ContactCta() {
                 </option>
               ))}
             </select>
+            {errors.course && (
+              <p id="course-error" className="text-sm text-red-600">
+                {errors.course}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
