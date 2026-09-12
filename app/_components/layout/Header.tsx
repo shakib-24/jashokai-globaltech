@@ -57,7 +57,7 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="#contact" variant="primary" className="min-h-11 px-5 text-sm">
+          <Button href="/apply" variant="primary" className="min-h-11 px-5 text-sm">
             Apply Now
           </Button>
         </div>
@@ -102,7 +102,7 @@ export default function Header() {
             ))}
           </ul>
           <Button
-            href="#contact"
+            href="/apply"
             variant="primary"
             onClick={() => setMenuOpen(false)}
             className="mt-4 w-full"
