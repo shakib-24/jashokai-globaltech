@@ -4,16 +4,16 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import { announcement } from "../data/announcement";
 import Badge from "./Badge";
 import {
-  IconChat,
-  IconGraduationCap,
-  IconHeadset,
-  IconLayers,
-  IconTarget,
+  IconArrowRight,
+  IconBriefcase,
+  IconClipboard,
+  IconLanguage,
+  IconShieldCheck,
 } from "./icons";
 
 const SESSION_KEY = "jashokai-announcement-dismissed";
 
-const TRUST_ICONS = [IconGraduationCap, IconLayers, IconTarget, IconHeadset];
+const TRUST_ICONS = [IconClipboard, IconShieldCheck, IconLanguage, IconBriefcase];
 
 // Popup visibility is derived from sessionStorage — an external system —
 // via useSyncExternalStore rather than mirrored into local React state.
@@ -83,7 +83,7 @@ export default function AnnouncementPopup() {
         aria-labelledby="announcement-title"
         aria-describedby="announcement-message"
         onClick={(event) => event.stopPropagation()}
-        className="relative w-[90%] max-w-[600px] overflow-hidden rounded-[22px] border border-gold/25 bg-[#fffdf8] p-6 shadow-[0_24px_60px_-20px_rgba(10,31,68,0.35)] motion-safe:[animation:announcement-pop-in_300ms_ease-out] sm:w-[92%] sm:p-8"
+        className="relative w-[90%] max-w-[600px] max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-[22px] border border-gold/25 bg-[#fffdf8] p-6 shadow-[0_24px_60px_-20px_rgba(10,31,68,0.35)] motion-safe:[animation:announcement-pop-in_300ms_ease-out] sm:w-[92%] sm:p-8"
       >
         {/* Very subtle sakura watermark — decorative only */}
         <svg
@@ -117,42 +117,53 @@ export default function AnnouncementPopup() {
         </button>
 
         <div className="relative text-center">
-          <h2 id="announcement-title" className="px-6 text-2xl font-bold text-navy sm:text-3xl">
+          <Badge variant="gold" className="mx-auto">
+            {announcement.badge}
+          </Badge>
+
+          <h2
+            id="announcement-title"
+            className="mt-3 px-2 text-2xl font-bold leading-snug text-navy sm:text-3xl"
+          >
             {announcement.title}
           </h2>
 
-          <div className="mx-auto my-3 h-px w-12 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <div className="mx-auto my-4 h-px w-12 bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-          <p id="announcement-message" className="px-2 text-base text-navy/80">
-            {announcement.message}
+          <p
+            id="announcement-message"
+            className="whitespace-pre-line px-2 text-sm leading-relaxed text-navy/80 sm:text-base"
+          >
+            {announcement.description}
           </p>
 
-          <div className="relative mt-6 overflow-hidden rounded-2xl border border-gold/30 bg-gold/8 px-5 py-4">
-            <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold via-sakura to-gold" />
-            <Badge variant="gold" className="mx-auto">
-              {announcement.badge}
-            </Badge>
-            <p className="mt-2 text-lg font-bold leading-snug text-navy sm:text-xl">
-              {announcement.highlightTitle}
-            </p>
-            <p className="text-lg font-bold leading-snug text-navy sm:text-xl">
-              {announcement.highlightLead}{" "}
-              <span className="text-sakura">{announcement.highlightEmphasis}</span>
-            </p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            {announcement.focusAreas.map((area) => (
+              <Badge key={area} variant="navy" className="normal-case tracking-normal">
+                {area}
+              </Badge>
+            ))}
           </div>
 
-          <p className="mt-4 text-sm text-muted">{announcement.description}</p>
-          <p className="mt-1.5 text-sm font-medium text-navy/70">{announcement.motivation}</p>
-
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex flex-col items-center gap-3">
             <a
               href={announcement.buttonHref}
               onClick={dismiss}
               className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-8 text-base font-semibold text-navy transition-all duration-150 motion-reduce:transition-none hover:-translate-y-0.5 hover:bg-gold-light hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:w-auto"
             >
-              <IconChat width={18} height={18} strokeWidth={2} />
               {announcement.buttonText}
+              <IconArrowRight width={18} height={18} strokeWidth={2} />
             </a>
+
+            {announcement.secondaryHref && (
+              <a
+                href={announcement.secondaryHref}
+                onClick={dismiss}
+                className="text-sm font-medium text-navy/70 underline-offset-4 hover:text-navy hover:underline"
+              >
+                {announcement.secondaryText}
+              </a>
+            )}
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-4 border-t border-line pt-5 sm:grid-cols-4 sm:gap-3">
