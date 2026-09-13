@@ -7,6 +7,7 @@ import TextField from "../fields/TextField";
 import TextAreaField from "../fields/TextAreaField";
 import RadioGroup from "../fields/RadioGroup";
 import FileUploadField from "../fields/FileUploadField";
+import PassportNotice from "../PassportNotice";
 
 export default function StepPersonal({ errors }: { errors: FieldErrors }) {
   const { data, setData } = useApplication();
@@ -25,6 +26,8 @@ export default function StepPersonal({ errors }: { errors: FieldErrors }) {
         </p>
       </div>
 
+      <PassportNotice />
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <TextField
           label="Full Name"
@@ -39,10 +42,9 @@ export default function StepPersonal({ errors }: { errors: FieldErrors }) {
           label="Name in Katakana"
           name="nameKatakana"
           required
-          placeholder="ハサン アリ"
+          placeholder="ハサン シャキブ"
           value={personal.nameKatakana}
           error={errors.nameKatakana}
-          helperText="Write your name using Katakana characters, as used in Japanese resumes."
           onChange={(e) => update("nameKatakana", e.target.value)}
         />
         <TextField
@@ -113,14 +115,13 @@ export default function StepPersonal({ errors }: { errors: FieldErrors }) {
       />
 
       <FileUploadField
-        label="Profile / Resume Photo"
-        required
+        label="Resume Photo (Optional)"
         variant="photo"
         accept="image/png,image/jpeg,image/jpg"
         maxSizeBytes={MAX_IMAGE_SIZE_BYTES}
         value={personal.photo}
         error={errors.photo}
-        helperText="Please upload a clear upper-body resume photo. JPG, JPEG or PNG, displayed in a resume-friendly portrait ratio."
+        helperText="Optional. JPG, JPEG or PNG. If provided, it will be shown in a resume-friendly portrait ratio. You can continue without a photo."
         onChange={(file) => update("photo", file)}
       />
     </div>

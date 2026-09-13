@@ -5,7 +5,7 @@ export type UploadedFile = {
   dataUrl: string;
 };
 
-export type Gender = "Male" | "Female" | "Prefer not to say";
+export type Gender = "Male" | "Female";
 
 export type PersonalInfo = {
   fullName: string;
@@ -26,11 +26,21 @@ export type EducationStatus =
   | "Withdrawn"
   | "Other";
 
+export type EducationCourseType =
+  | "SSC"
+  | "HSC"
+  | "Diploma"
+  | "Honours"
+  | "Bachelor"
+  | "Master"
+  | "Other";
+
 export type EducationEntry = {
   id: string;
   schoolName: string;
   country: string;
-  department: string;
+  courseType: EducationCourseType | "";
+  subjectMajor: string;
   startYear: string;
   startMonth: string;
   endYear: string;

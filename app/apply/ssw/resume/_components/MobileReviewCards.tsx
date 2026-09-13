@@ -78,7 +78,8 @@ export default function MobileReviewCards({ application }: { application: SSWApp
               <div key={e.id} className="border-l-2 border-gold/40 pl-3">
                 <p className="text-sm font-semibold text-navy">
                   {e.schoolName || "—"}
-                  {e.department ? ` — ${e.department}` : ""}
+                  {e.courseType ? ` — ${e.courseType}` : ""}
+                  {e.subjectMajor ? ` (${e.subjectMajor})` : ""}
                 </p>
                 <p className="text-xs text-muted">
                   {dateRange(e.startYear, e.startMonth, e.endYear, e.endMonth)} · {e.status || "—"}

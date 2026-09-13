@@ -3,6 +3,7 @@ import type {
   PersonalInfo,
   QualificationEntry,
   SSWApplication,
+  SSWInfo,
 } from "../../_lib/types";
 
 export type HistoryRow =
@@ -57,8 +58,17 @@ const EDUCATION_STATUS_WORD: Record<string, string> = {
   Other: "その他",
 };
 
+function educationCourseLabel(entry: EducationEntry): string {
+  if (!entry.courseType) return "";
+  return entry.subjectMajor.trim()
+    ? `${entry.courseType}（${entry.subjectMajor.trim()}）`
+    : entry.courseType;
+}
+
 function educationEntryName(entry: EducationEntry): string {
-  return [entry.schoolName, entry.department].filter((part) => part.trim()).join("　");
+  return [entry.schoolName, educationCourseLabel(entry)]
+    .filter((part) => part.trim())
+    .join("　");
 }
 
 export function buildHistoryRows(app: SSWApplication): HistoryRow[] {
@@ -138,4 +148,26 @@ export function padQualificationRows(rows: HistoryRow[], minRows = 4): HistoryRo
     padded.push({ kind: "entry", year: "", month: "", text: "" });
   }
   return padded;
+}
+
+export type SSWSummaryRow = { label: string; value: string };
+
+function dashIfEmpty(value?: string): string {
+  return value && value.trim() ? value : "—";
+}
+
+export function buildSSWSummaryRows(ssw: SSWInfo): SSWSummaryRow[] {
+  const rows: SSWSummaryRow[] = [
+    { label: "Desired SSW Field", value: dashIfEmpty(ssw.desiredField) },
+    { label: "Desired Monthly Salary", value: dashIfEmpty(ssw.desiredSalary) },
+    { label: "Preferred Work Location", value: dashIfEmpty(ssw.preferredLocation) },
+    { label: "Housing Preference", value: dashIfEmpty(ssw.housingPreference) },
+    { label: "Available Start Date", value: dashIfEmpty(ssw.availableStartDate) },
+    { label: "Currently in Japan?", value: dashIfEmpty(ssw.currentlyInJapan) },
+  ];
+  if (ssw.currentlyInJapan === "Yes") {
+    rows.push({ label: "Current Visa / Residence Status", value: dashIfEmpty(ssw.currentVisaStatus) });
+  }
+  rows.push({ label: "Passport Number", value: dashIfEmpty(ssw.passportNumber) });
+  return rows;
 }

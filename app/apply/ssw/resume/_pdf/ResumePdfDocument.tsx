@@ -12,6 +12,7 @@ import {
   padQualificationRows,
   type HistoryRow,
 } from "../_lib/resumeData";
+import SSWSummaryPdfPage from "./SSWSummaryPdfPage";
 
 const styles = StyleSheet.create({
   page: {
@@ -219,7 +220,13 @@ function HistoryTableRow({ row }: { row: HistoryRow }) {
   );
 }
 
-export default function ResumePdfDocument({ application }: { application: SSWApplication }) {
+export default function ResumePdfDocument({
+  application,
+  includeSSWSummary = false,
+}: {
+  application: SSWApplication;
+  includeSSWSummary?: boolean;
+}) {
   const { personal } = application;
   const age = calculateAge(personal.dateOfBirth);
   const historyRows = padHistoryRows(buildHistoryRows(application));
@@ -320,6 +327,8 @@ export default function ResumePdfDocument({ application }: { application: SSWApp
         <Text style={styles.sectionHeading}>本人希望記入欄</Text>
         <Text style={styles.textBox}>{application.personalRequests}</Text>
       </Page>
+
+      {includeSSWSummary && <SSWSummaryPdfPage ssw={application.ssw} />}
     </Document>
   );
 }

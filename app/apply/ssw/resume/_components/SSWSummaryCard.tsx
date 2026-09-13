@@ -1,15 +1,18 @@
 import type { SSWApplication } from "../../_lib/types";
+import { buildSSWSummaryRows } from "../_lib/resumeData";
 
-function Row({ label, value }: { label: string; value?: string }) {
+function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
       <span className="w-48 shrink-0 text-sm font-medium text-muted">{label}</span>
-      <span className="text-sm text-navy">{value?.trim() ? value : "—"}</span>
+      <span className="text-sm text-navy">{value}</span>
     </div>
   );
 }
 
 export default function SSWSummaryCard({ ssw }: { ssw: SSWApplication["ssw"] }) {
+  const rows = buildSSWSummaryRows(ssw);
+
   return (
     <section className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-5 sm:p-6">
       <div>
@@ -20,16 +23,9 @@ export default function SSWSummaryCard({ ssw }: { ssw: SSWApplication["ssw"] }) 
         </p>
       </div>
       <div className="flex flex-col gap-2">
-        <Row label="Desired SSW Field" value={ssw.desiredField} />
-        <Row label="Desired Monthly Salary" value={ssw.desiredSalary} />
-        <Row label="Preferred Work Location" value={ssw.preferredLocation} />
-        <Row label="Housing Preference" value={ssw.housingPreference} />
-        <Row label="Available Start Date" value={ssw.availableStartDate} />
-        <Row label="Currently in Japan?" value={ssw.currentlyInJapan} />
-        {ssw.currentlyInJapan === "Yes" && (
-          <Row label="Current Visa / Residence Status" value={ssw.currentVisaStatus} />
-        )}
-        <Row label="Passport Number" value={ssw.passportNumber} />
+        {rows.map((row) => (
+          <Row key={row.label} label={row.label} value={row.value} />
+        ))}
       </div>
     </section>
   );

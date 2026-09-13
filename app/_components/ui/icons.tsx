@@ -219,6 +219,16 @@ export function IconCheck(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function IconInfo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.8h.01" strokeWidth={2.25} />
+      <path d="M11 11h1v6h1" />
+    </svg>
+  );
+}
+
 export function IconBriefcase(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>

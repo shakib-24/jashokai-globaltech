@@ -1,4 +1,5 @@
 import type {
+  EducationCourseType,
   EducationStatus,
   EmploymentType,
   HousingPreference,
@@ -17,13 +18,29 @@ export const STEP_LABELS = [
   "Review",
 ] as const;
 
-export const GENDER_OPTIONS = ["Male", "Female", "Prefer not to say"] as const;
+export const GENDER_OPTIONS = ["Male", "Female"] as const;
 
 export const EDUCATION_STATUS_OPTIONS: EducationStatus[] = [
   "Graduated",
   "Currently Enrolled",
   "Withdrawn",
   "Other",
+];
+
+export const EDUCATION_COURSE_TYPE_OPTIONS: EducationCourseType[] = [
+  "SSC",
+  "HSC",
+  "Diploma",
+  "Honours",
+  "Bachelor",
+  "Master",
+  "Other",
+];
+
+export const SUBJECT_MAJOR_COURSE_TYPES: EducationCourseType[] = [
+  "Honours",
+  "Bachelor",
+  "Master",
 ];
 
 export const EMPLOYMENT_TYPE_OPTIONS: EmploymentType[] = [

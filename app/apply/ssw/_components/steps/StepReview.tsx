@@ -99,7 +99,9 @@ export default function StepReview({ onEdit }: { onEdit: (step: number) => void 
             {data.education.map((e) => (
               <div key={e.id} className="border-l-2 border-gold/40 pl-4">
                 <p className="text-sm font-semibold text-navy">
-                  {e.schoolName || "—"}{e.department ? ` — ${e.department}` : ""}
+                  {e.schoolName || "—"}
+                  {e.courseType ? ` — ${e.courseType}` : ""}
+                  {e.subjectMajor ? ` (${e.subjectMajor})` : ""}
                 </p>
                 <p className="text-xs text-muted">
                   {e.country || "—"} ·{" "}

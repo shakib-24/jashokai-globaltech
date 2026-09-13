@@ -2,7 +2,11 @@
 
 import { useApplication } from "../../_context/ApplicationContext";
 import { createEmptyEducationEntry } from "../../_lib/defaults";
-import { EDUCATION_STATUS_OPTIONS } from "../../_lib/constants";
+import {
+  EDUCATION_COURSE_TYPE_OPTIONS,
+  EDUCATION_STATUS_OPTIONS,
+  SUBJECT_MAJOR_COURSE_TYPES,
+} from "../../_lib/constants";
 import type { EducationEntry, FieldErrors } from "../../_lib/types";
 import type { ListErrors } from "../../_lib/validation";
 import TextField from "../fields/TextField";
@@ -12,6 +16,8 @@ import Button from "../../../../_components/ui/Button";
 import { IconPlus } from "../../../../_components/ui/icons";
 
 const STATUS_OPTIONS = EDUCATION_STATUS_OPTIONS.map((s) => ({ value: s, label: s }));
+const COURSE_TYPE_OPTIONS = EDUCATION_COURSE_TYPE_OPTIONS.map((c) => ({ value: c, label: c }));
+const SUBJECT_MAJOR_COURSE_TYPE_SET = new Set<string>(SUBJECT_MAJOR_COURSE_TYPES);
 
 function sortByStart(list: EducationEntry[]): EducationEntry[] {
   return [...list].sort((a, b) => {
@@ -166,17 +172,30 @@ function EducationCard({
         <TextField
           label="Country"
           name={`edu-country-${entry.id}`}
-          required
+          placeholder="Optional"
           value={entry.country}
           error={errors.country}
           onChange={(e) => onChange({ country: e.target.value })}
         />
-        <TextField
-          label="Department / Course"
-          name={`edu-department-${entry.id}`}
-          value={entry.department}
-          onChange={(e) => onChange({ department: e.target.value })}
+        <SelectField
+          label="Education Type / Course"
+          name={`edu-course-type-${entry.id}`}
+          options={COURSE_TYPE_OPTIONS}
+          placeholder="SSC / HSC / Diploma / Honours / Bachelor / Master"
+          value={entry.courseType}
+          onChange={(e) =>
+            onChange({ courseType: e.target.value as EducationEntry["courseType"] })
+          }
         />
+        {SUBJECT_MAJOR_COURSE_TYPE_SET.has(entry.courseType) && (
+          <TextField
+            label="Subject / Major"
+            name={`edu-subject-major-${entry.id}`}
+            placeholder="e.g. Computer Science, Business Administration, Accounting"
+            value={entry.subjectMajor}
+            onChange={(e) => onChange({ subjectMajor: e.target.value })}
+          />
+        )}
         <SelectField
           label="Status"
           name={`edu-status-${entry.id}`}

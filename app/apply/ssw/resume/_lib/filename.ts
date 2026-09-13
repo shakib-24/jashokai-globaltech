@@ -10,3 +10,7 @@ export function slugifyForFilename(name: string): string {
 export function resumeFilename(fullName: string): string {
   return `rirekisho_${slugifyForFilename(fullName)}.pdf`;
 }
+
+export function fullApplicationFilename(fullName: string): string {
+  return `ssw_application_${slugifyForFilename(fullName)}.pdf`;
+}

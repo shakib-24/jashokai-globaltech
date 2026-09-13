@@ -35,14 +35,12 @@ export function validatePersonal(p: PersonalInfo): FieldErrors {
   } else if (!EMAIL_PATTERN.test(p.email.trim())) {
     errors.email = "Please enter a valid email address.";
   }
-  if (!p.photo) errors.photo = "A profile / resume photo is required.";
   return errors;
 }
 
 export function validateEducationEntry(e: EducationEntry): FieldErrors {
   const errors: FieldErrors = {};
   if (!e.schoolName.trim()) errors.schoolName = "School / institution name is required.";
-  if (!e.country.trim()) errors.country = "Country is required.";
   if (!e.startYear) errors.startYear = "Start year is required.";
   if (!e.startMonth) errors.startMonth = "Start month is required.";
   if (!e.status) errors.status = "Please select a status.";
