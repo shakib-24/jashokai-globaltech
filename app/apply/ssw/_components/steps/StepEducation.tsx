@@ -181,7 +181,6 @@ function EducationCard({
           label="Education Type / Course"
           name={`edu-course-type-${entry.id}`}
           options={COURSE_TYPE_OPTIONS}
-          placeholder="SSC / HSC / Diploma / Honours / Bachelor / Master"
           value={entry.courseType}
           onChange={(e) =>
             onChange({ courseType: e.target.value as EducationEntry["courseType"] })

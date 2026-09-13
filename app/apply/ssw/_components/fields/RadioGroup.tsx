@@ -23,9 +23,12 @@ export default function RadioGroup({
       </span>
       <div
         role="radiogroup"
+        tabIndex={-1}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${name}-error` : undefined}
-        className="flex flex-wrap gap-2"
+        className={`flex flex-wrap gap-2 rounded-lg ${
+          error ? "border border-sakura p-2" : ""
+        }`}
       >
         {options.map((option) => {
           const checked = value === option;

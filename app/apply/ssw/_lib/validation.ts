@@ -107,10 +107,6 @@ export function validateQualifications(list: QualificationEntry[]): ListErrors {
 export function validateSSWInfo(s: SSWInfo): FieldErrors {
   const errors: FieldErrors = {};
   if (!s.desiredField) errors.desiredField = "Please select a desired SSW field.";
-  if (!s.currentlyInJapan) errors.currentlyInJapan = "Please select an option.";
-  if (s.currentlyInJapan === "Yes" && !s.currentVisaStatus) {
-    errors.currentVisaStatus = "Please select your current visa / residence status.";
-  }
   return errors;
 }
 

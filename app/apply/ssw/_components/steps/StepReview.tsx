@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useApplication } from "../../_context/ApplicationContext";
 import { MONTH_OPTIONS } from "../../_lib/constants";
+import { formatYen } from "../../_lib/format";
 
 function monthLabel(value: string): string {
   return MONTH_OPTIONS.find((m) => m.value === value)?.label ?? value;
@@ -166,14 +167,9 @@ export default function StepReview({ onEdit }: { onEdit: (step: number) => void 
       <ReviewSection title="SSW Information" onEdit={() => onEdit(4)}>
         <div className="flex flex-col gap-1.5">
           <ReviewRow label="Desired Field" value={data.ssw.desiredField} />
-          <ReviewRow label="Desired Salary" value={data.ssw.desiredSalary} />
+          <ReviewRow label="Desired Salary" value={formatYen(data.ssw.desiredSalary)} />
           <ReviewRow label="Preferred Location" value={data.ssw.preferredLocation} />
           <ReviewRow label="Housing Preference" value={data.ssw.housingPreference} />
-          <ReviewRow label="Available Start Date" value={data.ssw.availableStartDate} />
-          <ReviewRow label="Currently in Japan?" value={data.ssw.currentlyInJapan} />
-          {data.ssw.currentlyInJapan === "Yes" && (
-            <ReviewRow label="Current Visa Status" value={data.ssw.currentVisaStatus} />
-          )}
           <ReviewRow label="Passport Number" value={data.ssw.passportNumber} />
         </div>
       </ReviewSection>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useApplication } from "../_context/ApplicationContext";
 import { STEP_LABELS } from "../_lib/constants";
 import {
@@ -28,6 +28,7 @@ import StepReview from "./steps/StepReview";
 
 const EMPTY_LIST_ERRORS: ListErrors = { entries: {} };
 const EMPTY_FIELD_ERRORS: FieldErrors = {};
+const BLOCKED_MESSAGE = "Please complete the required fields above before continuing.";
 
 export default function Wizard() {
   const router = useRouter();
@@ -38,10 +39,28 @@ export default function Wizard() {
   const [qualificationErrors, setQualificationErrors] = useState<ListErrors>(EMPTY_LIST_ERRORS);
   const [sswErrors, setSSWErrors] = useState<FieldErrors>(EMPTY_FIELD_ERRORS);
   const [motivationErrors, setMotivationErrors] = useState<FieldErrors>(EMPTY_FIELD_ERRORS);
+  const [blocked, setBlocked] = useState(false);
+  const stepContainerRef = useRef<HTMLDivElement>(null);
 
   function goTo(index: number) {
+    setBlocked(false);
     setStep(index);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function focusFirstError() {
+    requestAnimationFrame(() => {
+      const container = stepContainerRef.current;
+      if (!container) return;
+      const invalidField = container.querySelector<HTMLElement>('[aria-invalid="true"]');
+      if (invalidField) {
+        invalidField.scrollIntoView({ behavior: "smooth", block: "center" });
+        invalidField.focus({ preventScroll: true });
+        return;
+      }
+      const listError = container.querySelector<HTMLElement>('[role="alert"]');
+      listError?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
   }
 
   function handleContinue() {
@@ -49,37 +68,61 @@ export default function Wizard() {
       case 0: {
         const errors = validatePersonal(data.personal);
         setPersonalErrors(errors);
-        if (hasErrors(errors)) return;
+        if (hasErrors(errors)) {
+          setBlocked(true);
+          focusFirstError();
+          return;
+        }
         break;
       }
       case 1: {
         const errors = validateEducation(data.education);
         setEducationErrors(errors);
-        if (hasListErrors(errors)) return;
+        if (hasListErrors(errors)) {
+          setBlocked(true);
+          focusFirstError();
+          return;
+        }
         break;
       }
       case 2: {
         const errors = validateWork(data.workExperience);
         setWorkErrors(errors);
-        if (hasListErrors(errors)) return;
+        if (hasListErrors(errors)) {
+          setBlocked(true);
+          focusFirstError();
+          return;
+        }
         break;
       }
       case 3: {
         const errors = validateQualifications(data.qualifications);
         setQualificationErrors(errors);
-        if (hasListErrors(errors)) return;
+        if (hasListErrors(errors)) {
+          setBlocked(true);
+          focusFirstError();
+          return;
+        }
         break;
       }
       case 4: {
         const errors = validateSSWInfo(data.ssw);
         setSSWErrors(errors);
-        if (hasErrors(errors)) return;
+        if (hasErrors(errors)) {
+          setBlocked(true);
+          focusFirstError();
+          return;
+        }
         break;
       }
       case 5: {
         const errors = validateMotivation(data);
         setMotivationErrors(errors);
-        if (hasErrors(errors)) return;
+        if (hasErrors(errors)) {
+          setBlocked(true);
+          focusFirstError();
+          return;
+        }
         break;
       }
       case 6: {
@@ -106,7 +149,7 @@ export default function Wizard() {
     <div className="flex flex-col gap-8">
       <ProgressBar step={step} maxStepReached={maxStepReached} onStepClick={goTo} />
 
-      <div className="rounded-2xl bg-white p-5 shadow-sm sm:p-8">
+      <div ref={stepContainerRef} className="rounded-2xl bg-white p-5 shadow-sm sm:p-8">
         {step === 0 && <StepPersonal errors={personalErrors} />}
         {step === 1 && <StepEducation errors={educationErrors} />}
         {step === 2 && <StepWork errors={workErrors} />}
@@ -120,6 +163,7 @@ export default function Wizard() {
           onContinue={handleContinue}
           hideBack={step === 0}
           continueLabel={step === STEP_LABELS.length - 1 ? "Continue to Resume Preview" : "Continue"}
+          blockedMessage={blocked ? BLOCKED_MESSAGE : undefined}
         />
       </div>
     </div>

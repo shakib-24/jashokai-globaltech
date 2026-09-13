@@ -2,7 +2,11 @@
 
 import { useApplication } from "../../_context/ApplicationContext";
 import { createEmptyQualificationEntry } from "../../_lib/defaults";
-import { MAX_CERTIFICATE_SIZE_BYTES, QUALIFICATION_TYPE_OPTIONS } from "../../_lib/constants";
+import {
+  MAX_CERTIFICATE_SIZE_BYTES,
+  QUALIFICATION_TYPE_OPTIONS,
+  getQualificationLevelOptions,
+} from "../../_lib/constants";
 import type { FieldErrors, QualificationEntry } from "../../_lib/types";
 import type { ListErrors } from "../../_lib/validation";
 import TextField from "../fields/TextField";
@@ -88,6 +92,11 @@ function QualificationCard({
   onChange: (patch: Partial<QualificationEntry>) => void;
   onRemove: () => void;
 }) {
+  const levelOptions = getQualificationLevelOptions(entry.type).map((l) => ({
+    value: l,
+    label: l,
+  }));
+
   return (
     <fieldset className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-5 sm:p-6">
       <div className="flex items-center justify-between">
@@ -111,20 +120,30 @@ function QualificationCard({
           options={TYPE_OPTIONS}
           value={entry.type}
           error={errors.type}
-          onChange={(e) => onChange({ type: e.target.value as QualificationEntry["type"] })}
+          onChange={(e) => {
+            const nextType = e.target.value as QualificationEntry["type"];
+            const nextLevelOptions = getQualificationLevelOptions(nextType);
+            onChange({
+              type: nextType,
+              level: nextLevelOptions.includes(entry.level) ? entry.level : "",
+            });
+          }}
         />
         <TextField
           label="Qualification / Certificate Name"
           name={`qual-name-${entry.id}`}
           required
+          placeholder="日本語能力試験（JLPT）"
           value={entry.name}
           error={errors.name}
           onChange={(e) => onChange({ name: e.target.value })}
         />
-        <TextField
+        <SelectField
           label="Level"
           name={`qual-level-${entry.id}`}
-          placeholder="e.g. N4, Level 2"
+          options={levelOptions}
+          disabled={!entry.type}
+          placeholder={entry.type ? "Select a level" : "Select qualification type first"}
           value={entry.level}
           onChange={(e) => onChange({ level: e.target.value })}
         />

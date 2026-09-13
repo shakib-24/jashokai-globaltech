@@ -33,7 +33,7 @@ export default function StepPersonal({ errors }: { errors: FieldErrors }) {
           label="Full Name"
           name="fullName"
           required
-          placeholder="Md Hasan Ali"
+          placeholder="Hasan Shakib"
           value={personal.fullName}
           error={errors.fullName}
           onChange={(e) => update("fullName", e.target.value)}

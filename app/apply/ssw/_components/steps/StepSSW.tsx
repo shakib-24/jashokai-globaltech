@@ -1,19 +1,14 @@
 "use client";
 
 import { useApplication } from "../../_context/ApplicationContext";
-import {
-  HOUSING_PREFERENCE_OPTIONS,
-  SSW_FIELD_OPTIONS,
-  VISA_STATUS_OPTIONS,
-} from "../../_lib/constants";
+import { HOUSING_PREFERENCE_OPTIONS, SSW_FIELD_OPTIONS } from "../../_lib/constants";
 import type { FieldErrors, SSWInfo } from "../../_lib/types";
 import TextField from "../fields/TextField";
 import SelectField from "../fields/SelectField";
-import RadioGroup from "../fields/RadioGroup";
+import CurrencyField from "../fields/CurrencyField";
 
 const FIELD_OPTIONS = SSW_FIELD_OPTIONS.map((f) => ({ value: f, label: f }));
 const HOUSING_OPTIONS = HOUSING_PREFERENCE_OPTIONS.map((h) => ({ value: h, label: h }));
-const VISA_OPTIONS = VISA_STATUS_OPTIONS.map((v) => ({ value: v, label: v }));
 
 export default function StepSSW({ errors }: { errors: FieldErrors }) {
   const { data, setData } = useApplication();
@@ -42,12 +37,12 @@ export default function StepSSW({ errors }: { errors: FieldErrors }) {
           error={errors.desiredField}
           onChange={(e) => update("desiredField", e.target.value as SSWInfo["desiredField"])}
         />
-        <TextField
+        <CurrencyField
           label="Desired Monthly Salary"
           name="desiredSalary"
-          placeholder="¥210,000 – ¥230,000"
+          placeholder="210,000"
           value={ssw.desiredSalary}
-          onChange={(e) => update("desiredSalary", e.target.value)}
+          onChange={(value) => update("desiredSalary", value)}
         />
         <TextField
           label="Preferred Work Location"
@@ -64,13 +59,6 @@ export default function StepSSW({ errors }: { errors: FieldErrors }) {
           onChange={(e) => update("housingPreference", e.target.value as SSWInfo["housingPreference"])}
         />
         <TextField
-          label="Available Start Date"
-          name="availableStartDate"
-          type="date"
-          value={ssw.availableStartDate}
-          onChange={(e) => update("availableStartDate", e.target.value)}
-        />
-        <TextField
           label="Passport Number"
           name="passportNumber"
           placeholder="Optional"
@@ -78,33 +66,6 @@ export default function StepSSW({ errors }: { errors: FieldErrors }) {
           onChange={(e) => update("passportNumber", e.target.value)}
         />
       </div>
-
-      <RadioGroup
-        label="Currently in Japan?"
-        name="currentlyInJapan"
-        required
-        options={["Yes", "No"]}
-        value={ssw.currentlyInJapan}
-        error={errors.currentlyInJapan}
-        onChange={(value) =>
-          update("currentlyInJapan", value as SSWInfo["currentlyInJapan"])
-        }
-      />
-
-      {ssw.currentlyInJapan === "Yes" && (
-        <SelectField
-          label="Current Visa / Residence Status"
-          name="currentVisaStatus"
-          required
-          options={VISA_OPTIONS}
-          value={ssw.currentVisaStatus}
-          error={errors.currentVisaStatus}
-          className="max-w-md"
-          onChange={(e) =>
-            update("currentVisaStatus", e.target.value as SSWInfo["currentVisaStatus"])
-          }
-        />
-      )}
     </div>
   );
 }

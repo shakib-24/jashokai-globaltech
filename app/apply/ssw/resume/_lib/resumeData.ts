@@ -5,6 +5,7 @@ import type {
   SSWApplication,
   SSWInfo,
 } from "../../_lib/types";
+import { formatYen } from "../../_lib/format";
 
 export type HistoryRow =
   | { kind: "heading"; text: string }
@@ -159,15 +160,10 @@ function dashIfEmpty(value?: string): string {
 export function buildSSWSummaryRows(ssw: SSWInfo): SSWSummaryRow[] {
   const rows: SSWSummaryRow[] = [
     { label: "Desired SSW Field", value: dashIfEmpty(ssw.desiredField) },
-    { label: "Desired Monthly Salary", value: dashIfEmpty(ssw.desiredSalary) },
+    { label: "Desired Monthly Salary", value: dashIfEmpty(formatYen(ssw.desiredSalary)) },
     { label: "Preferred Work Location", value: dashIfEmpty(ssw.preferredLocation) },
     { label: "Housing Preference", value: dashIfEmpty(ssw.housingPreference) },
-    { label: "Available Start Date", value: dashIfEmpty(ssw.availableStartDate) },
-    { label: "Currently in Japan?", value: dashIfEmpty(ssw.currentlyInJapan) },
   ];
-  if (ssw.currentlyInJapan === "Yes") {
-    rows.push({ label: "Current Visa / Residence Status", value: dashIfEmpty(ssw.currentVisaStatus) });
-  }
   rows.push({ label: "Passport Number", value: dashIfEmpty(ssw.passportNumber) });
   return rows;
 }

@@ -5,7 +5,6 @@ import type {
   HousingPreference,
   QualificationType,
   SSWField,
-  VisaStatus,
 } from "./types";
 
 export const STEP_LABELS = [
@@ -81,14 +80,18 @@ export const HOUSING_PREFERENCE_OPTIONS: HousingPreference[] = [
   "No Preference",
 ];
 
-export const VISA_STATUS_OPTIONS: VisaStatus[] = [
-  "Student",
-  "Engineer / Specialist in Humanities / International Services",
-  "Technical Intern Training",
-  "Specified Skilled Worker",
-  "Dependent",
-  "Other",
-];
+const QUALIFICATION_LEVEL_OPTIONS_BY_TYPE: Partial<Record<QualificationType, string[]>> = {
+  JLPT: ["N5", "N4", "N3", "N2", "N1"],
+  "JFT-Basic": ["JFT-Basic", "Passed"],
+  "NAT-TEST": ["5Q", "4Q", "3Q", "2Q", "1Q"],
+};
+
+export const DEFAULT_QUALIFICATION_LEVEL_OPTIONS = ["Passed", "Other"];
+
+export function getQualificationLevelOptions(type: QualificationType | ""): string[] {
+  if (!type) return [];
+  return QUALIFICATION_LEVEL_OPTIONS_BY_TYPE[type] ?? DEFAULT_QUALIFICATION_LEVEL_OPTIONS;
+}
 
 export const MONTH_OPTIONS = [
   { value: "01", label: "January" },

@@ -106,22 +106,11 @@ export type HousingPreference =
   | "Self-arranged Housing Possible"
   | "No Preference";
 
-export type VisaStatus =
-  | "Student"
-  | "Engineer / Specialist in Humanities / International Services"
-  | "Technical Intern Training"
-  | "Specified Skilled Worker"
-  | "Dependent"
-  | "Other";
-
 export type SSWInfo = {
   desiredField: SSWField | "";
   desiredSalary: string;
   preferredLocation: string;
   housingPreference: HousingPreference | "";
-  availableStartDate: string;
-  currentlyInJapan: "Yes" | "No" | "";
-  currentVisaStatus: VisaStatus | "";
   passportNumber: string;
 };
 
