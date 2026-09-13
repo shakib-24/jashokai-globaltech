@@ -137,15 +137,7 @@ export default function AnnouncementPopup() {
             {announcement.description}
           </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            {announcement.focusAreas.map((area) => (
-              <Badge key={area} variant="navy" className="normal-case tracking-normal">
-                {area}
-              </Badge>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="mt-8 flex flex-col items-center gap-3">
             <a
               href={announcement.buttonHref}
               onClick={dismiss}
