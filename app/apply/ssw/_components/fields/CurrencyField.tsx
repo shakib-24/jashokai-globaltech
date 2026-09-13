@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 import FieldShell, { inputClasses, inputErrorClasses } from "./FieldShell";
-import { sanitizeDigits } from "../../_lib/format";
+import { formatSalaryInputDisplay, sanitizeSalaryInput } from "../../_lib/format";
 
 type Props = {
   label: string;
@@ -10,7 +10,7 @@ type Props = {
   helperText?: string;
   placeholder?: string;
   value: string;
-  onChange: (digits: string) => void;
+  onChange: (value: string) => void;
   className?: string;
 };
 
@@ -20,15 +20,15 @@ export default function CurrencyField({
   required,
   error,
   helperText,
-  placeholder = "210,000",
+  placeholder = "210,000 – 230,000",
   value,
   onChange,
   className = "",
 }: Props) {
-  const displayValue = value ? Number(value).toLocaleString("en-US") : "";
+  const displayValue = formatSalaryInputDisplay(value);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    onChange(sanitizeDigits(e.target.value));
+    onChange(sanitizeSalaryInput(e.target.value));
   }
 
   return (
@@ -47,7 +47,6 @@ export default function CurrencyField({
           id={name}
           name={name}
           type="text"
-          inputMode="numeric"
           autoComplete="off"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${name}-error` : undefined}
