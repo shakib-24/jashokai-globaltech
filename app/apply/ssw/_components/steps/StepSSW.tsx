@@ -40,7 +40,7 @@ export default function StepSSW({ errors }: { errors: FieldErrors }) {
         <CurrencyField
           label="Desired Monthly Salary"
           name="desiredSalary"
-          placeholder="210,000"
+          placeholder="210,000 – 230,000"
           value={ssw.desiredSalary}
           onChange={(value) => update("desiredSalary", value)}
         />
