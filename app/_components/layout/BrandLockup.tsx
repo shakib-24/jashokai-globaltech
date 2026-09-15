@@ -20,7 +20,7 @@ export default function BrandLockup({ light = false }: { light?: boolean }) {
         >
           JASHOKAI
         </span>
-        <span className="hidden items-baseline gap-0.5 text-[11px] font-bold uppercase leading-none tracking-[0.16em] sm:flex">
+        <span className="flex items-baseline gap-0.5 text-[11px] font-bold uppercase leading-none tracking-[0.16em]">
           <span className={light ? "text-white" : "text-navy"}>Global</span>
           <span className="text-gold">Tech</span>
         </span>
