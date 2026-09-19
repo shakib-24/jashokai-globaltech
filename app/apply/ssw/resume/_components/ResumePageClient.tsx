@@ -4,16 +4,14 @@ import { useRef, useState } from "react";
 import { useApplicationData } from "../../_context/useApplicationData";
 import { useIsHydrated } from "../../_lib/useIsHydrated";
 import { hasApplicationData } from "../../_lib/applicationStatus";
-import { resumeFilename, fullApplicationFilename } from "../_lib/filename";
+import { resumeFilename } from "../_lib/filename";
 import Button from "../../../../_components/ui/Button";
 import Section from "../../../../_components/ui/Section";
 import DocumentPreview from "./DocumentPreview";
 import MobileReviewCards from "./MobileReviewCards";
-import SSWSummaryCard from "./SSWSummaryCard";
 
 type Tab = "document" | "mobile-review";
 type PdfStatus = "idle" | "generating" | "error";
-type DownloadKind = "resume" | "full";
 
 function Spinner() {
   return (
@@ -29,13 +27,11 @@ export default function ResumePageClient() {
   const application = useApplicationData();
   const [tab, setTab] = useState<Tab>("document");
   const [pdfStatus, setPdfStatus] = useState<PdfStatus>("idle");
-  const [downloadingKind, setDownloadingKind] = useState<DownloadKind | null>(null);
   const generatingRef = useRef(false);
 
-  async function handleDownload(kind: DownloadKind) {
+  async function handleDownload() {
     if (generatingRef.current) return;
     generatingRef.current = true;
-    setDownloadingKind(kind);
     setPdfStatus("generating");
 
     try {
@@ -47,17 +43,12 @@ export default function ResumePageClient() {
       const ResumePdfDocument = pdfDocumentModule.default;
       fontsModule.ensureFontsRegistered();
 
-      const blob = await pdf(
-        <ResumePdfDocument application={application} includeSSWSummary={kind === "full"} />
-      ).toBlob();
+      const blob = await pdf(<ResumePdfDocument application={application} />).toBlob();
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement("a");
       link.href = url;
-      link.download =
-        kind === "full"
-          ? fullApplicationFilename(application.personal.fullName)
-          : resumeFilename(application.personal.fullName);
+      link.download = resumeFilename(application.personal.fullName);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -69,7 +60,6 @@ export default function ResumePageClient() {
       setPdfStatus("error");
     } finally {
       generatingRef.current = false;
-      setDownloadingKind(null);
     }
   }
 
@@ -102,8 +92,6 @@ export default function ResumePageClient() {
     );
   }
 
-  const isGeneratingResume = pdfStatus === "generating" && downloadingKind === "resume";
-  const isGeneratingFull = pdfStatus === "generating" && downloadingKind === "full";
   const isGenerating = pdfStatus === "generating";
 
   return (
@@ -170,71 +158,43 @@ export default function ResumePageClient() {
             <MobileReviewCards application={application} />
           </div>
 
-          <SSWSummaryCard ssw={application.ssw} />
-
           <section className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-5 sm:p-6">
             <div>
-              <h2 className="text-lg font-semibold text-navy">Download Options</h2>
+              <h2 className="text-lg font-semibold text-navy">Download</h2>
               <p className="mt-1 text-sm text-muted">
-                Choose the document you need. The 履歴書 contains only the traditional Japanese
-                resume; the full application also includes your SSW summary for JASHOKAI
-                GlobalTech&apos;s reference.
+                Your SSW preferences are included in the 本人希望記入欄 section of the 履歴書 below.
               </p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button
-                type="button"
-                variant="primary"
-                onClick={() => handleDownload("resume")}
-                disabled={isGenerating}
-                className="flex-1 gap-2"
-              >
-                {isGeneratingResume && <Spinner />}
-                {isGeneratingResume ? "Generating..." : "Download 履歴書"}
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => handleDownload("full")}
-                disabled={isGenerating}
-                className="flex-1 gap-2"
-              >
-                {isGeneratingFull && <Spinner />}
-                {isGeneratingFull ? "Generating..." : "Download Full Application"}
-              </Button>
-            </div>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleDownload}
+              disabled={isGenerating}
+              className="gap-2 sm:self-start sm:px-8"
+            >
+              {isGenerating && <Spinner />}
+              {isGenerating ? "Generating..." : "Download 履歴書"}
+            </Button>
           </section>
         </div>
       </div>
 
       <div
-        className="fixed inset-x-0 bottom-0 z-40 flex flex-col gap-2 border-t border-line bg-white/95 px-5 py-3 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex gap-3 border-t border-line bg-white/95 px-5 py-3 backdrop-blur lg:hidden"
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
       >
-        <div className="flex gap-3">
-          <Button href="/apply/ssw" variant="outline" className="flex-1">
-            Edit
-          </Button>
-          <Button
-            type="button"
-            variant="primary"
-            onClick={() => handleDownload("resume")}
-            disabled={isGenerating}
-            className="flex-1 gap-2"
-          >
-            {isGeneratingResume && <Spinner />}
-            {isGeneratingResume ? "Generating..." : "Download 履歴書"}
-          </Button>
-        </div>
+        <Button href="/apply/ssw" variant="outline" className="flex-1">
+          Edit
+        </Button>
         <Button
           type="button"
-          variant="secondary"
-          onClick={() => handleDownload("full")}
+          variant="primary"
+          onClick={handleDownload}
           disabled={isGenerating}
-          className="gap-2"
+          className="flex-1 gap-2"
         >
-          {isGeneratingFull && <Spinner />}
-          {isGeneratingFull ? "Generating..." : "Download Full Application"}
+          {isGenerating && <Spinner />}
+          {isGenerating ? "Generating..." : "Download 履歴書"}
         </Button>
       </div>
     </Section>

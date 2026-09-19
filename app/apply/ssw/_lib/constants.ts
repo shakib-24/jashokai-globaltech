@@ -3,6 +3,7 @@ import type {
   EducationStatus,
   EmploymentType,
   HousingPreference,
+  PreferredLocation,
   QualificationType,
   SSWField,
 } from "./types";
@@ -78,6 +79,19 @@ export const HOUSING_PREFERENCE_OPTIONS: HousingPreference[] = [
   "Partial Housing Support Preferred",
   "Self-arranged Housing Possible",
   "No Preference",
+];
+
+export const PREFERRED_LOCATION_OPTIONS: PreferredLocation[] = [
+  "Tokyo",
+  "Chiba",
+  "Saitama",
+  "Kanagawa",
+  "Osaka",
+  "Aichi",
+  "Fukuoka",
+  "Hokkaido",
+  "Anywhere in Japan",
+  "Other",
 ];
 
 const QUALIFICATION_LEVEL_OPTIONS_BY_TYPE: Partial<Record<QualificationType, string[]>> = {

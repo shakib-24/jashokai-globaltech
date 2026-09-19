@@ -76,11 +76,10 @@ export function createEmptyApplication(): SSWApplication {
       desiredField: "",
       desiredSalary: "",
       preferredLocation: "",
+      preferredLocationOther: "",
       housingPreference: "",
-      passportNumber: "",
     },
     motivation: "",
     selfPR: "",
-    personalRequests: "",
   };
 }

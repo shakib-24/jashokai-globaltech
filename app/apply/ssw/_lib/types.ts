@@ -106,12 +106,24 @@ export type HousingPreference =
   | "Self-arranged Housing Possible"
   | "No Preference";
 
+export type PreferredLocation =
+  | "Tokyo"
+  | "Chiba"
+  | "Saitama"
+  | "Kanagawa"
+  | "Osaka"
+  | "Aichi"
+  | "Fukuoka"
+  | "Hokkaido"
+  | "Anywhere in Japan"
+  | "Other";
+
 export type SSWInfo = {
   desiredField: SSWField | "";
   desiredSalary: string;
-  preferredLocation: string;
+  preferredLocation: PreferredLocation | "";
+  preferredLocationOther: string;
   housingPreference: HousingPreference | "";
-  passportNumber: string;
 };
 
 export type SSWApplication = {
@@ -122,7 +134,6 @@ export type SSWApplication = {
   ssw: SSWInfo;
   motivation: string;
   selfPR: string;
-  personalRequests: string;
 };
 
 export const STEP_KEYS = [

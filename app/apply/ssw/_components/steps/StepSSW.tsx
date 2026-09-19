@@ -1,7 +1,11 @@
 "use client";
 
 import { useApplication } from "../../_context/ApplicationContext";
-import { HOUSING_PREFERENCE_OPTIONS, SSW_FIELD_OPTIONS } from "../../_lib/constants";
+import {
+  HOUSING_PREFERENCE_OPTIONS,
+  PREFERRED_LOCATION_OPTIONS,
+  SSW_FIELD_OPTIONS,
+} from "../../_lib/constants";
 import type { FieldErrors, SSWInfo } from "../../_lib/types";
 import TextField from "../fields/TextField";
 import SelectField from "../fields/SelectField";
@@ -9,6 +13,7 @@ import CurrencyField from "../fields/CurrencyField";
 
 const FIELD_OPTIONS = SSW_FIELD_OPTIONS.map((f) => ({ value: f, label: f }));
 const HOUSING_OPTIONS = HOUSING_PREFERENCE_OPTIONS.map((h) => ({ value: h, label: h }));
+const LOCATION_OPTIONS = PREFERRED_LOCATION_OPTIONS.map((l) => ({ value: l, label: l }));
 
 export default function StepSSW({ errors }: { errors: FieldErrors }) {
   const { data, setData } = useApplication();
@@ -44,26 +49,30 @@ export default function StepSSW({ errors }: { errors: FieldErrors }) {
           value={ssw.desiredSalary}
           onChange={(value) => update("desiredSalary", value)}
         />
-        <TextField
+        <SelectField
           label="Preferred Work Location"
           name="preferredLocation"
-          placeholder="Tokyo / Chiba / Saitama / Anywhere in Japan"
+          options={LOCATION_OPTIONS}
           value={ssw.preferredLocation}
-          onChange={(e) => update("preferredLocation", e.target.value)}
+          onChange={(e) =>
+            update("preferredLocation", e.target.value as SSWInfo["preferredLocation"])
+          }
         />
+        {ssw.preferredLocation === "Other" && (
+          <TextField
+            label="Other Preferred Location"
+            name="preferredLocationOther"
+            placeholder="Enter your preferred location"
+            value={ssw.preferredLocationOther}
+            onChange={(e) => update("preferredLocationOther", e.target.value)}
+          />
+        )}
         <SelectField
           label="Housing Preference"
           name="housingPreference"
           options={HOUSING_OPTIONS}
           value={ssw.housingPreference}
           onChange={(e) => update("housingPreference", e.target.value as SSWInfo["housingPreference"])}
-        />
-        <TextField
-          label="Passport Number"
-          name="passportNumber"
-          placeholder="Optional"
-          value={ssw.passportNumber}
-          onChange={(e) => update("passportNumber", e.target.value)}
         />
       </div>
     </div>

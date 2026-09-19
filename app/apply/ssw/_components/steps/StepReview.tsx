@@ -168,9 +168,15 @@ export default function StepReview({ onEdit }: { onEdit: (step: number) => void 
         <div className="flex flex-col gap-1.5">
           <ReviewRow label="Desired Field" value={data.ssw.desiredField} />
           <ReviewRow label="Desired Salary" value={formatYen(data.ssw.desiredSalary)} />
-          <ReviewRow label="Preferred Location" value={data.ssw.preferredLocation} />
+          <ReviewRow
+            label="Preferred Location"
+            value={
+              data.ssw.preferredLocation === "Other"
+                ? data.ssw.preferredLocationOther
+                : data.ssw.preferredLocation
+            }
+          />
           <ReviewRow label="Housing Preference" value={data.ssw.housingPreference} />
-          <ReviewRow label="Passport Number" value={data.ssw.passportNumber} />
         </div>
       </ReviewSection>
 
@@ -188,16 +194,6 @@ export default function StepReview({ onEdit }: { onEdit: (step: number) => void 
             <p className="text-xs font-semibold uppercase tracking-wide text-muted">自己PR / Self PR</p>
             <p className="mt-1 whitespace-pre-wrap text-sm text-navy">{data.selfPR || "—"}</p>
           </div>
-          {data.personalRequests && (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                本人希望記入欄 / Personal Requests
-              </p>
-              <p className="mt-1 whitespace-pre-wrap text-sm text-navy">
-                {data.personalRequests}
-              </p>
-            </div>
-          )}
         </div>
       </ReviewSection>
 

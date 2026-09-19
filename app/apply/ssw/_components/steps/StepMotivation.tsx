@@ -63,21 +63,6 @@ export default function StepMotivation({ errors }: { errors: FieldErrors }) {
           例：私は新しいことを学ぶ意欲が強く、最後まであきらめずに取り組むことができます。また、チームワークを大切にしています。
         </p>
       </div>
-
-      <div className="flex flex-col gap-2">
-        <JapaneseBadge />
-        <TextAreaField
-          label="本人希望記入欄 / Personal Requests"
-          name="personalRequests"
-          rows={4}
-          helperText="希望がある場合は日本語で入力してください。"
-          value={data.personalRequests}
-          onChange={(e) => setData((prev) => ({ ...prev, personalRequests: e.target.value }))}
-        />
-        <p className="text-xs italic text-muted">
-          例：勤務地は関東地方を希望します。特に希望がない場合は「特になし」とご記入ください。
-        </p>
-      </div>
     </div>
   );
 }

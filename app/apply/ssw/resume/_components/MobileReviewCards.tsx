@@ -146,14 +146,6 @@ export default function MobileReviewCards({ application }: { application: SSWApp
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">自己PR / Self PR</p>
           <p className="mt-1 whitespace-pre-wrap text-sm text-navy">{application.selfPR || "—"}</p>
         </div>
-        {application.personalRequests && (
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-              本人希望記入欄 / Personal Requests
-            </p>
-            <p className="mt-1 whitespace-pre-wrap text-sm text-navy">{application.personalRequests}</p>
-          </div>
-        )}
       </Card>
     </div>
   );
